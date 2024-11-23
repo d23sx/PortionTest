@@ -1,16 +1,34 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:oz_cafe/app/app.locator.dart';
+import 'package:oz_cafe/ui/common/app_data.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
+
+import '../../../app/app.router.dart';
+
 class HomeViewModel extends BaseViewModel {
   static BuildContext? tabContext;
+  static final _navigationService = locator<NavigationService>();
+  String? itemName;
+  String? itemImageUrl;
+  int? itemPrice;
+  String? itemDescription;
+
+  static Future<void> goToDetailsPage(MenuData menuItemData) async {
+    await _navigationService.navigateToItemDetailsView(menuItems: menuItemData);
+  }
 
   static List<GlobalKey> keys = [
-    GlobalKey(),
-    GlobalKey(),
-    GlobalKey(),
-    GlobalKey(),
-    GlobalKey(),
+    GlobalKey(debugLabel: "Best Seller"),
+    GlobalKey(debugLabel: "Drinks"),
+    GlobalKey(debugLabel: "Desert"),
+    GlobalKey(debugLabel: "Breakfast"),
+    GlobalKey(debugLabel: "Meals"),
   ];
+  static Future goToToCart() async {
+    await _navigationService.navigateToCartView();
+  }
 /*
   static ScrollController? _scrollController;
 
@@ -30,5 +48,4 @@ class HomeViewModel extends BaseViewModel {
       }
     }
   }*/
-
 }

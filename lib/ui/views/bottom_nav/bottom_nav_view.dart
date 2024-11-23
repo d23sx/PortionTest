@@ -22,7 +22,9 @@ class BottomNavView extends StackedView<BottomNavViewModel> {
         backgroundColor: kcBackgroundColor,
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
-          backgroundColor: kcLightGrey,
+          backgroundColor: kcEazyBlueColor,
+          //unselectedItemColor: kcVintageCreamColor,
+          //selectedItemColor: kcBlackColor,
           currentIndex: viewModel.currentIndex,
           onTap: viewModel.setIndex,
           showSelectedLabels: false,
@@ -30,15 +32,15 @@ class BottomNavView extends StackedView<BottomNavViewModel> {
           items: [
             BottomNavigationBarItem(
               label: "`Home`",
-              icon: Image.asset("assets/icons/Group 2.png"),
+              icon: Image.asset("assets/icons/Group 2.png",height: 22,color: kcVintageCreamColor,),
             ),
             BottomNavigationBarItem(
               label: "Location",
-              icon: Image.asset("assets/icons/Frame-1.png"),
+              icon: Image.asset("assets/icons/Frame-1.png",height: 22,color: kcVintageCreamColor,),
             ),
             BottomNavigationBarItem(
               label: "Profile",
-              icon: Image.asset("assets/icons/Frame-2.png"),
+              icon: Image.asset("assets/icons/Frame-2.png",height: 22,color: kcVintageCreamColor,),
             ),
           ],
         ),

@@ -9,6 +9,7 @@ import 'package:oz_cafe/ui/views/home/home_view.dart';
 import 'package:oz_cafe/ui/views/location/location_view.dart';
 import 'package:oz_cafe/ui/views/profile/profile_view.dart';
 import 'package:oz_cafe/ui/views/item_details/item_details_view.dart';
+import 'package:oz_cafe/ui/views/cart/cart_view.dart';
 // @stacked-import
 
 @StackedApp(
@@ -19,6 +20,7 @@ import 'package:oz_cafe/ui/views/item_details/item_details_view.dart';
     MaterialRoute(page: LocationView),
     MaterialRoute(page: ProfileView),
     MaterialRoute(page: ItemDetailsView),
+    MaterialRoute(page: CartView),
 // @stacked-route
   ],
   dependencies: [

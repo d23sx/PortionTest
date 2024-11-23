@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:oz_cafe/ui/common/app_data.dart';
 import 'package:stacked/stacked.dart';
 
+import '../../../app/app.router.dart';
 import '../../common/app_colors.dart';
 import '../../common/text_style.dart';
 import '../../common/ui_helpers.dart';
@@ -15,6 +16,24 @@ class HomeView extends StackedView<HomeViewModel> {
   Widget builder(BuildContext context, HomeViewModel viewModel, Widget? child) {
     return Scaffold(
       backgroundColor: kcBackgroundColor,
+      appBar: AppBar(
+          backgroundColor: kcBackgroundColor,
+          title: Text(
+            "Hello, Aqeel",
+            style: FontStyles.header3,
+          ),
+          actions: [
+            IconButton(
+              onPressed: () {
+                HomeViewModel.goToToCart();
+              },
+              icon: Image.asset(
+                "assets/icons/Frame-5.png",
+                color: kcEazyBlueColor,
+                height: 22,
+              ),
+            )
+          ]),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(
@@ -23,23 +42,12 @@ class HomeView extends StackedView<HomeViewModel> {
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Hello, Aqeel",
-                      style: FontStyles.header3,
-                    ),
-                    Image.asset("assets/icons/Frame-5.png")
-                  ],
-                ),
-                verticalSpaceSmall,
+                verticalSpaceMedium,
                 Container(
                   height: 44,
                   width: 331,
                   decoration: BoxDecoration(
-                    color: kcLightGrey,
+                    color: kcEazyBlueColor.withOpacity(0.09),
                     borderRadius: BorderRadius.circular(25),
                   ),
                   child: Padding(
@@ -60,7 +68,7 @@ class HomeView extends StackedView<HomeViewModel> {
                   ),
                   child: Image.asset("assets/icons/Banner.png"),
                 ),
-                verticalSpaceSmall,
+                verticalSpaceTiny,
                 Padding(
                   padding: const EdgeInsets.only(top: 10),
                   child: Builder(
@@ -72,14 +80,16 @@ class HomeView extends StackedView<HomeViewModel> {
                           children: [
                             ButtonsTabBar(
                               key: HomeViewModel.keys[0],
-                              buttonMargin: const EdgeInsets.only(right: 10),
-                              unselectedBackgroundColor: kcLightGrey,
+                              unselectedBackgroundColor:
+                                  kcEazyBlueColor.withOpacity(0.09),
                               unselectedLabelStyle:
-                                  const TextStyle(color: kcBlackColor),
-                              backgroundColor: kcBlackColor,
+                                  const TextStyle(color: kcEazyBlueColor),
+                              backgroundColor: kcEazyBlueColor,
+                              labelStyle:
+                                  const TextStyle(color: kcVintageCreamColor),
                               radius: 24,
-                              height: 50,
-                              contentPadding: const EdgeInsets.all(20),
+                              height: 45,
+                              contentPadding: const EdgeInsets.all(10),
                               contentCenter: true,
                               tabs: const [
                                 Tab(text: "Best Seller"),
@@ -89,9 +99,15 @@ class HomeView extends StackedView<HomeViewModel> {
                                 Tab(text: "Meals"),
                               ],
                             ),
+                            verticalSpaceTiny,
                             SizedBox(
                               height: 500,
-                              child: TabBarView(
+                              child: /*HomeView.hasError?
+                                  const Center(
+                                    child: CircularProgressIndicator(),
+                                  )
+                                  : */
+                                  TabBarView(
                                 children: [
                                   _buildMenuItemsList(
                                       MenuRepository.bestSeller),
@@ -119,50 +135,55 @@ class HomeView extends StackedView<HomeViewModel> {
   }
 
   Widget _buildMenuItemContainer(MenuData menuItem) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10.0),
-      child: SizedBox(
-        height: 200,
-        width: 160,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            menuItem.itemImage.isNotEmpty
-                ? ClipRRect(
-                    borderRadius: const BorderRadius.all(Radius.circular(16)),
-                    child: Image.asset(
-                      width: 160,
-                      height: 140,
-                      menuItem.itemImage,
-                      fit: BoxFit.cover,
-                    ))
-                : ClipRRect(
-                    borderRadius: const BorderRadius.all(Radius.circular(16)),
-                    child: Image.asset(
-                      width: 160,
-                      height: 140,
-                      "assets/img/empty.jpg",
-                      fit: BoxFit.cover,
+    return GestureDetector(
+      onTap: () async {
+        await HomeViewModel.goToDetailsPage(menuItem);
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10.0),
+        child: SizedBox(
+          height: 200,
+          width: 160,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              menuItem.itemImage.isNotEmpty
+                  ? ClipRRect(
+                      borderRadius: const BorderRadius.all(Radius.circular(16)),
+                      child: Image.asset(
+                        width: 160,
+                        height: 140,
+                        menuItem.itemImage,
+                        fit: BoxFit.cover,
+                      ))
+                  : ClipRRect(
+                      borderRadius: const BorderRadius.all(Radius.circular(16)),
+                      child: Image.asset(
+                        width: 160,
+                        height: 140,
+                        "assets/img/empty.jpg",
+                        fit: BoxFit.cover,
+                      ),
                     ),
-                  ),
-            verticalSpaceTiny,
-            Padding(
-              padding: const EdgeInsets.only(bottom: 5, left: 10),
-              child: Text(
-                menuItem.itemName,
-                style: FontStyles.title2,
-                overflow: TextOverflow.ellipsis,
+              verticalSpaceTiny,
+              Padding(
+                padding: const EdgeInsets.only(bottom: 5, left: 10),
+                child: Text(
+                  menuItem.itemName,
+                  style: FontStyles.title2,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 5, left: 10),
-              child: Text(
-                "BHD ${menuItem.itemPrice.toString()}",
-                style: FontStyles.body,
+              Padding(
+                padding: const EdgeInsets.only(bottom: 5, left: 10),
+                child: Text(
+                  "BHD ${menuItem.itemPrice.toString()}",
+                  style: FontStyles.body,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -171,17 +192,15 @@ class HomeView extends StackedView<HomeViewModel> {
   Widget _buildMenuItemsList(List<MenuData> categories) {
     return GridView.builder(
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 20,
-        mainAxisSpacing: 5,
-        childAspectRatio: 0.6
-      ),
+          crossAxisCount: 2,
+          crossAxisSpacing: 20,
+          mainAxisSpacing: 5,
+          childAspectRatio: 0.6),
       itemCount: categories.length,
       itemBuilder: (context, index) {
         return _buildMenuItemContainer(categories[index]);
       },
-      physics:
-          const NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
     );
   }

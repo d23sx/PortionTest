@@ -10,21 +10,25 @@ class FontStyles {
   static TextStyle header1 = TextStyle(
       fontSize: 40,
       color: textColor1,
+      fontWeight: FontWeight.bold,
       letterSpacing: 1,
       fontFamily: 'Roboto-Bold');
   static TextStyle header2 = TextStyle(
       fontSize: 28,
       color: textColor1,
       letterSpacing: 1,
-      fontFamily: 'Roboto-Bold');
+      fontWeight: FontWeight.bold,
+      fontFamily: 'Roboto');
   static TextStyle header3 = TextStyle(
       fontSize: 25,
       color: textColor3,
+      fontWeight: FontWeight.bold,
       letterSpacing: 1,
       fontFamily: 'Roboto-Regular');
   static TextStyle title1 = TextStyle(
       fontSize: 19,
       color: textColor1,
+      fontWeight: FontWeight.bold,
       letterSpacing: 1,
       fontFamily: 'Roboto-Regular');
   static TextStyle title2 = TextStyle(
