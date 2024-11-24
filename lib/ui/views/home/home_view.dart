@@ -7,126 +7,149 @@ import '../../../app/app.router.dart';
 import '../../common/app_colors.dart';
 import '../../common/text_style.dart';
 import '../../common/ui_helpers.dart';
+import '../cart/cart_view.dart';
+import '../item_details/item_details_viewmodel.dart';
 import 'home_viewmodel.dart';
+import 'package:badges/badges.dart' as badges;
 
 class HomeView extends StackedView<HomeViewModel> {
   const HomeView({Key? key}) : super(key: key);
 
   @override
   Widget builder(BuildContext context, HomeViewModel viewModel, Widget? child) {
-    return Scaffold(
-      backgroundColor: kcBackgroundColor,
-      appBar: AppBar(
-          backgroundColor: kcBackgroundColor,
-          title: Text(
-            "Hello, Aqeel",
-            style: FontStyles.header3,
-          ),
-          actions: [
-            IconButton(
-              onPressed: () {
-                HomeViewModel.goToToCart();
-              },
-              icon: Image.asset(
-                "assets/icons/Frame-5.png",
-                color: kcEazyBlueColor,
-                height: 22,
-              ),
-            )
-          ]),
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                verticalSpaceMedium,
-                Container(
-                  height: 44,
-                  width: 331,
-                  decoration: BoxDecoration(
-                    color: kcEazyBlueColor.withOpacity(0.09),
-                    borderRadius: BorderRadius.circular(25),
+    final provider = ItemDetailsViewModel.of(context);
+    print("Cart Length 2: ${provider.cart.length}");
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: kcBackgroundColor,
+        appBar: AppBar(
+            automaticallyImplyLeading: false,
+            elevation: 0,
+            backgroundColor: kcBackgroundColor,
+            title: Text(
+              "Hello, Aqeel",
+              style: FontStyles.header3,
+            ),
+            //flexibleSpace: Center(child: SizedBox(width: 26,height:26,child: Image.asset("assets/logos/Oz - Logo & Slogan - Blue on Transparent 1.png"))),
+            actions: [
+              badges.Badge(
+                badgeStyle:
+                    const badges.BadgeStyle(badgeColor: kcEazyBlueColor),
+                position: badges.BadgePosition.topEnd(top: -3, end: 2),
+                badgeContent:  Text(
+                  "${provider.cart.length}",
+                  style: const TextStyle(color: Colors.white),
+                ),
+                badgeAnimation: const badges.BadgeAnimation.rotation(
+                    animationDuration: Duration(milliseconds: 300)),
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const CartView()),
+                    );
+                  },
+                  icon: Image.asset(
+                    "assets/icons/Frame-5.png",
+                    color: kcEazyBlueColor,
+                    height: 22,
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 10),
-                    child: Text(
-                      "Your remaining points: 120 points",
-                      style: FontStyles.title2,
+                ),
+              )
+            ]),
+        body: SingleChildScrollView(
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    height: 44,
+                    width: 331,
+                    decoration: BoxDecoration(
+                      color: kcLightEazyBlueColor,
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 10),
+                      child: Text(
+                        "Your remaining points: 120 points",
+                        style: FontStyles.title2,
+                      ),
                     ),
                   ),
-                ),
-                verticalSpaceSmall,
-                Container(
-                  height: 180,
-                  width: 331,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
+                  verticalSpaceSmall,
+                  Container(
+                    height: 180,
+                    width: 331,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Image.asset("assets/icons/Banner.png"),
                   ),
-                  child: Image.asset("assets/icons/Banner.png"),
-                ),
-                verticalSpaceTiny,
-                Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: Builder(
-                    builder: (context) {
-                      HomeViewModel.tabContext = context;
-                      return DefaultTabController(
-                        length: HomeViewModel.keys.length,
-                        child: Column(
-                          children: [
-                            ButtonsTabBar(
-                              key: HomeViewModel.keys[0],
-                              unselectedBackgroundColor:
-                                  kcEazyBlueColor.withOpacity(0.09),
-                              unselectedLabelStyle:
-                                  const TextStyle(color: kcEazyBlueColor),
-                              backgroundColor: kcEazyBlueColor,
-                              labelStyle:
-                                  const TextStyle(color: kcVintageCreamColor),
-                              radius: 24,
-                              height: 45,
-                              contentPadding: const EdgeInsets.all(10),
-                              contentCenter: true,
-                              tabs: const [
-                                Tab(text: "Best Seller"),
-                                Tab(text: "Drinks"),
-                                Tab(text: "Dessert"),
-                                Tab(text: "Breakfast"),
-                                Tab(text: "Meals"),
-                              ],
-                            ),
-                            verticalSpaceTiny,
-                            SizedBox(
-                              height: 500,
-                              child: /*HomeView.hasError?
-                                  const Center(
-                                    child: CircularProgressIndicator(),
-                                  )
-                                  : */
-                                  TabBarView(
-                                children: [
-                                  _buildMenuItemsList(
-                                      MenuRepository.bestSeller),
-                                  _buildMenuItemsList(MenuRepository.drinks),
-                                  _buildMenuItemsList(MenuRepository.desserts),
-                                  _buildMenuItemsList(MenuRepository.breakfast),
-                                  _buildMenuItemsList(MenuRepository.meals),
+                  verticalSpaceTiny,
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: Builder(
+                      builder: (context) {
+                        HomeViewModel.tabContext = context;
+                        return DefaultTabController(
+                          length: 5,
+                          child: Column(
+                            children: [
+                              ButtonsTabBar(
+                                key: HomeViewModel.keys,
+                                unselectedBackgroundColor:
+                                kcLightEazyBlueColor,
+                                unselectedLabelStyle:
+                                    const TextStyle(color: kcEazyBlueColor),
+                                backgroundColor: kcEazyBlueColor,
+                                labelStyle:
+                                    const TextStyle(color: kcVintageCreamColor),
+                                radius: 24,
+                                height: 45,
+                                contentPadding: const EdgeInsets.all(10),
+                                contentCenter: true,
+                                tabs: const [
+                                  Tab(text: "Best Seller"),
+                                  Tab(text: "Drinks"),
+                                  Tab(text: "Dessert"),
+                                  Tab(text: "Breakfast"),
+                                  Tab(text: "Meals"),
                                 ],
                               ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
+                              verticalSpaceTiny,
+                              SizedBox(
+                                height: 500,
+                                child: /*viewModel.hasError?
+                                    const Center(
+                                      child: CircularProgressIndicator(),
+                                    )
+                                    : */
+                                    TabBarView(
+                                  children: [
+                                    _buildMenuItemsList(
+                                        MenuRepository.bestSeller),
+                                    _buildMenuItemsList(MenuRepository.drinks),
+                                    _buildMenuItemsList(
+                                        MenuRepository.desserts),
+                                    _buildMenuItemsList(
+                                        MenuRepository.breakfast),
+                                    _buildMenuItemsList(MenuRepository.meals),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
                   ),
-                ),
-                verticalSpaceMedium,
-                verticalSpaceSmall,
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -200,7 +223,6 @@ class HomeView extends StackedView<HomeViewModel> {
       itemBuilder: (context, index) {
         return _buildMenuItemContainer(categories[index]);
       },
-      physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
     );
   }

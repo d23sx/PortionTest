@@ -10,24 +10,20 @@ import '../../../app/app.router.dart';
 class HomeViewModel extends BaseViewModel {
   static BuildContext? tabContext;
   static final _navigationService = locator<NavigationService>();
-  String? itemName;
-  String? itemImageUrl;
-  int? itemPrice;
-  String? itemDescription;
-
-  static Future<void> goToDetailsPage(MenuData menuItemData) async {
-    await _navigationService.navigateToItemDetailsView(menuItems: menuItemData);
-  }
-
-  static List<GlobalKey> keys = [
+  static final GlobalKey keys = GlobalKey();
+/*  static List<GlobalKey> keys = [
     GlobalKey(debugLabel: "Best Seller"),
     GlobalKey(debugLabel: "Drinks"),
     GlobalKey(debugLabel: "Desert"),
     GlobalKey(debugLabel: "Breakfast"),
     GlobalKey(debugLabel: "Meals"),
-  ];
+  ];*/
+  static Future<void> goToDetailsPage(MenuData menuItemData) async {
+    await _navigationService.navigateToItemDetailsView(menuItems: menuItemData);
+  }
+
   static Future goToToCart() async {
-    await _navigationService.navigateToCartView();
+    await _navigationService.replaceWithCartView();
   }
 /*
   static ScrollController? _scrollController;

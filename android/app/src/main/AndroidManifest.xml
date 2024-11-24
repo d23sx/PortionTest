@@ -2,7 +2,11 @@
     <application
         android:label="oz_cafe"
         android:name="${applicationName}"
+        android:enableOnBackInvokedCallback="true"
         android:icon="@mipmap/ic_launcher">
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBxbFmZJicJeQEIU32wvJ__-5IOZzVz6FU"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"

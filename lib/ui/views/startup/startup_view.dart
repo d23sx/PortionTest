@@ -26,6 +26,7 @@ class StartupView extends StackedView<StartupViewModel> {
               "assets/logos/Oz - Logo & Slogan - Blue on Transparent 1.png",
             ),
             verticalSpaceMedium,
+            verticalSpaceSmall,
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [

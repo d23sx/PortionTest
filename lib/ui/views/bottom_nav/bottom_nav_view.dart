@@ -23,8 +23,8 @@ class BottomNavView extends StackedView<BottomNavViewModel> {
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
           backgroundColor: kcEazyBlueColor,
-          //unselectedItemColor: kcVintageCreamColor,
-          //selectedItemColor: kcBlackColor,
+          unselectedItemColor: kcVintageCreamColor,
+          selectedItemColor: kcBlackColor,
           currentIndex: viewModel.currentIndex,
           onTap: viewModel.setIndex,
           showSelectedLabels: false,
